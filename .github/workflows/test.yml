@@ -1,11 +1,27 @@
 name: Test
 
-on: [push, pull_request]
+on: [push, pull_request, workflow_dispatch]
 
 jobs:
   test:
     runs-on: ubuntu-latest
     steps:
+      - run: echo $GITHUB_WORKSPACE
+      - run: pwd
+      - run: ls -la
       - uses: actions/checkout@v2
+        # with:
+        #   path: hello-action
+      - run: pwd
+      - run: ls -la
+      - uses: bahmutov/npm-install@v1
+      #   continue-on-error: true
+      #   with:
+      #     useLockFile: false
+      # - run: npm i
+      - run: ls -la
       - run: npm run build
+      - run: pwd
+      - run: ls -la
+      # - run: ls dist -la
       - uses: ./
