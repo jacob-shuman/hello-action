@@ -1,6 +1,9 @@
 name: Test
 
-on: [push, pull_request, workflow_dispatch]
+on:
+  issues:
+    types: [opened]
+      
 
 jobs:
   test:
@@ -8,10 +11,10 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Install Dependencies
-        uses: bahmutov/npm-install@v1
+#       - name: Install Dependencies
+#         uses: bahmutov/npm-install@v1
 
-      - name: Build Action
-        run: npm run build
+#       - name: Build Action
+#         run: npm run build
 
       - uses: ./
