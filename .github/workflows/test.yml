@@ -3,25 +3,40 @@ name: Test
 on: [push, pull_request, workflow_dispatch]
 
 jobs:
-  test:
+  test-github:
+    if: ${{ !env.ACT }}
+    name: "Test on GitHub"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+
+      - name: Install Dependencies
+        uses: bahmutov/npm-install@v1
+        with:
+          useLockFile: false
+
+      - name: Build Action
+        run: npm run build
+
+      - uses: ./
+
+  test-act:
+    if: ${{ env.ACT }}
+    name: "Test using Nektos Act"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
         with:
           path: "hello-action"
 
-      - if: ${{ !env.ACT }}
-        uses: bahmutov/npm-install@v1
-
-      - if: ${{ env.ACT }}
-        working-directory: "hello-action"
+      - name: Install Dependencies
         run: npm i
+        working-directory: "hello-action"
 
-      - if: ${{ !env.ACT }}
-        run: npm run build
-
-      - if: ${{ env.ACT }}
+      - name: Build Action
         run: npm run build
         working-directory: "hello-action"
 
-      - uses: ./
+      - name: Test Action
+        uses: ./
