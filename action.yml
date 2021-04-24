@@ -1,0 +1,12 @@
+name: "Hello Action"
+description: "Simple action which says hello when a new issue is created!"
+author: "Jacob Shuman"
+
+inputs:
+  GITHUB_TOKEN:
+    description: "GitHub token"
+    required: true
+
+runs:
+  using: "node12"
+  main: "dist/index.js"

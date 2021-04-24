@@ -1,0 +1,22 @@
+{
+  "name": "hello-action",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "ncc build src/action.js -o dist"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jacob-shuman/hello-action.git"
+  },
+  "author": "Jacob Shuman",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jacob-shuman/hello-action/issues"
+  },
+  "homepage": "https://github.com/jacob-shuman/hello-action#readme",
+  "dependencies": {
+    "@vercel/ncc": "^0.28.3"
+  }
+}
