@@ -6,22 +6,23 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - run: echo $GITHUB_WORKSPACE
-      - run: pwd
-      - run: ls -la
       - uses: actions/checkout@v2
-        # with:
-        #   path: hello-action
-      - run: pwd
-      - run: ls -la
-      - uses: bahmutov/npm-install@v1
-      #   continue-on-error: true
-      #   with:
-      #     useLockFile: false
-      # - run: npm i
-      - run: ls -la
-      - run: npm run build
-      - run: pwd
-      - run: ls -la
-      # - run: ls dist -la
+        with:
+          path: "hello-action"
+
+      - if: ${{ !env.ACT }}
+        uses: bahmutov/npm-install@v1
+        with:
+          useLockFile: false
+      - if: ${{ env.ACT }}
+        working-directory: "hello-action"
+        run: npm i
+
+      - if: ${{ !env.ACT }}
+        run: npm run build
+
+      - if: ${{ env.ACT }}
+        run: npm run build
+        working-directory: "hello-action"
+
       - uses: ./
