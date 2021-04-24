@@ -2,45 +2,57 @@ name: Test
 
 on: [push, pull_request, workflow_dispatch]
 
-env:
-  ACT: $ACT
-
 jobs:
   test-github:
-    if: ${{ !$ACT }}
+    # if: ${{ !env.ACT }}
     name: "Test on GitHub"
     runs-on: ubuntu-latest
     steps:
+      - if: ${{ env.ACT }}
+        run: echo "GH_WORKSPACE=$GITHUB_WORKSPACE/hello-action" >> $GITHUB_ENV
+
+      # - if: ${{ env.ACT }}
+      #   run: echo "GITHUB_WORKSPACE=$GITHUB_WORKSPACE/hello-action" >> $GITHUB_ENV
+
       - uses: actions/checkout@v2
-
-      - name: Install Dependencies
-        uses: bahmutov/npm-install@v1
         with:
-          useLockFile: false
+          path: ${{ github.repository }}
 
-      - name: Build Action
-        run: npm run build
+      - run: ls -la
 
-      - uses: ./
+      # - name: Install Dependencies
+      #   uses: bahmutov/npm-install@v1
+      #   with:
+      #     useLockFile: false
+      # - name: Setup Action
+      #   run: |
+      #     npm i
+      #     npm run build
+      #   working-directory: ./hello-action
 
-  test-act:
-    if: ${{ $ACT }}
-    name: "Test using Nektos Act"
-    runs-on: ubuntu-latest
-    steps:
-      - run: env
-      - name: Checkout Repository
-        uses: actions/checkout@v2
-        with:
-          path: "hello-action"
+      # - name: Build Action
+      #   run: npm run build
 
-      - name: Install Dependencies
-        run: npm i
-        working-directory: "hello-action"
+      # - uses: ./
 
-      - name: Build Action
-        run: npm run build
-        working-directory: "hello-action"
+  # test-act:
+  #   if: ${{ env.ACT }}
+  #   name: "Test using Nektos Act"
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - run: env
+  #     - name: Checkout Repository
+  #       uses: actions/checkout@v2
+  #       with:
+  #         path: "hello-action"
 
-      - name: Test Action
-        uses: ./
+  #     - name: Install Dependencies
+  #       run: npm i
+  #       working-directory: "hello-action"
+
+  #     - name: Build Action
+  #       run: npm run build
+  #       working-directory: "hello-action"
+
+  #     - name: Test Action
+  #       uses: ./
