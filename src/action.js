@@ -15,6 +15,15 @@ async function run() {
       issue && issue.user ? `@${issue.user.login}` : "Stranger"
     }! Thank you for creating an issue!`,
   });
+
+  const issueComments = await octokit.issues.listComments({
+    ...context.repo,
+    issue_number: issue.number,
+  });
+
+  console.log("Existing Comments: ", issueComments.data);
+  //   if(issueComments.data.some((c)=>c.user.login))
+  //   await octokit.issues.deleteComment()
 }
 
 run();
