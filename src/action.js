@@ -12,7 +12,7 @@ async function run() {
     ...context.repo,
     issue_number: issue.number,
     body: `Hello ${
-      issue?.user?.login ?? "Stranger"
+      issue && issue.user ? issue.user.login : "Stranger"
     }! Thank you for creating an issue!`,
   });
 }
