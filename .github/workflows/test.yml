@@ -12,8 +12,7 @@ jobs:
 
       - if: ${{ !env.ACT }}
         uses: bahmutov/npm-install@v1
-        with:
-          useLockFile: false
+
       - if: ${{ env.ACT }}
         working-directory: "hello-action"
         run: npm i
