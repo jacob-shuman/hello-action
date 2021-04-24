@@ -21,7 +21,11 @@ async function run() {
     issue_number: issue.number,
   });
 
-  console.log("Existing Comments: ", issueComments.data);
+  core.info(
+    "Authenticated Login: ",
+    (await octokit.users.getAuthenticated()).data.login
+  );
+  core.info("Existing Comments: ", issueComments.data);
   //   if(issueComments.data.some((c)=>c.user.login))
   //   await octokit.issues.deleteComment()
 }
