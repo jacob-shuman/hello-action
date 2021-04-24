@@ -3,7 +3,6 @@ name: Test
 on:
   issues:
     types: [opened]
-      
 
 jobs:
   test:
@@ -18,3 +17,5 @@ jobs:
         run: npm run build
 
       - uses: ./
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
