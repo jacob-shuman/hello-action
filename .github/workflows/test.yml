@@ -2,9 +2,12 @@ name: Test
 
 on: [push, pull_request, workflow_dispatch]
 
+env:
+  ACT: $ACT
+
 jobs:
   test-github:
-    if: ${{ !env.ACT }}
+    if: ${{ !$ACT }}
     name: "Test on GitHub"
     runs-on: ubuntu-latest
     steps:
@@ -21,10 +24,11 @@ jobs:
       - uses: ./
 
   test-act:
-    if: ${{ env.ACT }}
+    if: ${{ $ACT }}
     name: "Test using Nektos Act"
     runs-on: ubuntu-latest
     steps:
+      - run: env
       - name: Checkout Repository
         uses: actions/checkout@v2
         with:
