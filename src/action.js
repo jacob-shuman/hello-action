@@ -8,6 +8,22 @@ async function run() {
   const { context } = github;
   const { issue } = context.payload;
 
+  const issueComments = await octokit.issues.listComments({
+    ...context.repo,
+    issue_number: issue.number,
+  });
+
+  const existingComment = issueComments.data.find(
+    (c) => c.user.login === "github-actions[bot]"
+  );
+
+  if (existingComment) {
+    await octokit.issues.deleteComment({
+      ...context.repo,
+      comment_id: existingComment.id,
+    });
+  }
+
   await octokit.issues.createComment({
     ...context.repo,
     issue_number: issue.number,
@@ -15,19 +31,6 @@ async function run() {
       issue && issue.user ? `@${issue.user.login}` : "Stranger"
     }! Thank you for creating an issue!`,
   });
-
-  const issueComments = await octokit.issues.listComments({
-    ...context.repo,
-    issue_number: issue.number,
-  });
-
-  core.info(
-    "Authenticated Login: ",
-    (await octokit.apps.getAuthenticated()).data
-  );
-  core.info("Existing Comments: ", issueComments.data);
-  //   if(issueComments.data.some((c)=>c.user.login))
-  //   await octokit.issues.deleteComment()
 }
 
 run();
