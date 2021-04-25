@@ -23,7 +23,7 @@ async function run() {
 
   core.info(
     "Authenticated Login: ",
-    (await octokit.users.getAuthenticated()).data.login
+    (await octokit.apps.getAuthenticated()).data
   );
   core.info("Existing Comments: ", issueComments.data);
   //   if(issueComments.data.some((c)=>c.user.login))
